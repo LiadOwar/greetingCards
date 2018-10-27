@@ -1,0 +1,11 @@
+<p>
+  homepage works!
+  <button (click) = "getCatalog()">Get Catalog</button>
+  <br>
+  <ng-container *ngFor = "let template of templates; let i = index" >
+
+    <span *ngIf = "template.type == 'BIRTH_DAY_TEMPLATE' "><button [ngClass] = "['BIRTH_DAY_TEMPLATE']" >Birth Day</button></span>
+    <span *ngIf = "template.type == 'GET_WELL_SOON_TEMPLATE' "><button [ngClass] = "['GET_WELL_SOON_TEMPLATE']" >Get Well</button></span>
+  </ng-container>
+
+</p>
