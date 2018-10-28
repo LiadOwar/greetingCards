@@ -1,5 +1,9 @@
 package greetingApp.services;
 
+import greetingApp.greetingCardData.AbstractGreetingCardData;
+import greetingApp.services.DataStorageConnection.DataStorageConnection;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 
 /**
@@ -7,6 +11,9 @@ import java.util.List;
  */
 
 public class GreetingCardServiceImpl implements GreetingCardService {
+
+    @Autowired
+    private DataStorageConnection dataStorageConnection;
 
     private List<GreetingCardTemplate> templatesList;
 
@@ -19,5 +26,10 @@ public class GreetingCardServiceImpl implements GreetingCardService {
 
     public List<GreetingCardTemplate> getTemplates(){
         return this.templatesList;
+    }
+
+    @Override
+    public Boolean postCard(AbstractGreetingCardData greetingCardData) {
+        return false;
     }
 }

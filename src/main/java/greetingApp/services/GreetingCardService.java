@@ -1,5 +1,7 @@
 package greetingApp.services;
 
+import greetingApp.greetingCardData.AbstractGreetingCardData;
+
 import java.util.List;
 
 /**
@@ -7,4 +9,6 @@ import java.util.List;
  */
 public interface GreetingCardService {
     List<GreetingCardTemplate> getTemplates();
+
+    Boolean postCard(AbstractGreetingCardData greetingCardData);
 }
