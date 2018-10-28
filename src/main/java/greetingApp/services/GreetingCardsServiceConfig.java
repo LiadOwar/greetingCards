@@ -13,9 +13,9 @@ import java.util.List;
 public class GreetingCardsServiceConfig {
     @Bean
     public GreetingCardService getGreetingCardService(){
-        List<GreetingcardTemplate> greetingcardTemplates = new ArrayList<>();
-        greetingcardTemplates.add(new GreetingcardTemplate(GreetingCardTemplateTypeEnum.BIRTH_DAY_TEMPLATE));
-        greetingcardTemplates.add(new GreetingcardTemplate(GreetingCardTemplateTypeEnum.GET_WELL_SOON_TEMPLATE));
+        List<GreetingCardTemplate> greetingcardTemplates = new ArrayList<>();
+        greetingcardTemplates.add(new GreetingCardTemplate(GreetingCardTemplateTypeEnum.BIRTH_DAY_TEMPLATE));
+        greetingcardTemplates.add(new GreetingCardTemplate(GreetingCardTemplateTypeEnum.GET_WELL_SOON_TEMPLATE));
         return new GreetingCardServiceImpl(greetingcardTemplates);
     }
 }

@@ -1,3 +1,17 @@
 <p>
-  birthday-template works!
+  Happy <input #textbox type="text" [(ngModel)]="recipientAge" required/> Birthday
+  <input #textbox type = "text" [(ngModel)]= "recipientName" required>
+
+
 </p>
+<p>
+  Wishes you all the best in the world
+</p>
+<p>
+  From: <input #textbox type = "text" [(ngModel)]= "senderName" required>
+</p>
+<button (click) = "createCard()">Create Card</button>
+<button (click) = "cancel()">Cancel</button>
+
+
+

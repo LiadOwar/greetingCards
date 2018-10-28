@@ -1,14 +1,11 @@
 package greetingApp.controllers;
 
 import greetingApp.services.GreetingCardService;
-import greetingApp.services.GreetingcardTemplate;
+import greetingApp.services.GreetingCardTemplate;
+import greetingApp.viewmodel.GreetingCardViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,10 +18,17 @@ public class GreetingCardsController {
 
     @CrossOrigin
     @RequestMapping("/greetingCard/catalog")
-    public List<GreetingcardTemplate> getGreetingCardsCatalog() throws Exception{
-        System.out.println("get catalog1234");
-
-
+    public List<GreetingCardTemplate> getGreetingCardsCatalog() throws Exception{
+        System.out.println("get catalog");
         return greetingCardService.getTemplates();
+    }
+
+    @CrossOrigin
+    @RequestMapping(method= RequestMethod.POST, value ="/greetingCard/createCard")
+    public Boolean createCard(@RequestBody GreetingCardViewModel greetingCardViewModel) throws Exception{
+        System.out.println(String.format("got post request with body: [%s]", greetingCardViewModel));
+
+
+        return true;
     }
 }

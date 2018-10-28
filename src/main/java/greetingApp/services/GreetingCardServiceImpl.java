@@ -1,8 +1,5 @@
 package greetingApp.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 /**
@@ -11,16 +8,16 @@ import java.util.List;
 
 public class GreetingCardServiceImpl implements GreetingCardService {
 
-    private List<GreetingcardTemplate> templatesList;
+    private List<GreetingCardTemplate> templatesList;
 
-    public GreetingCardServiceImpl(List<GreetingcardTemplate> templatesList) {
+    public GreetingCardServiceImpl(List<GreetingCardTemplate> templatesList) {
         this.templatesList = templatesList;
     }
 
     public GreetingCardServiceImpl() {
     }
 
-    public List<GreetingcardTemplate> getTemplates(){
+    public List<GreetingCardTemplate> getTemplates(){
         return this.templatesList;
     }
 }
