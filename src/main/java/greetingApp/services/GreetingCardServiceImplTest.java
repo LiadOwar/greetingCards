@@ -1,10 +1,8 @@
 package greetingApp.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import greetingApp.GreetingCardObject.AbstractGreetingCard;
 import greetingApp.greetingCardData.AbstractGreetingCardData;
 import greetingApp.greetingCardData.BirthdayGreetingCardData;
+import greetingApp.greetingCardData.GetWellGreetingCardData;
 import greetingApp.services.DataStorageConnection.DataStorageConnection;
 import greetingApp.services.greetingCardGenerator.BirthDayGreetingCardGenerator;
 import greetingApp.services.greetingCardGenerator.GreetingCardGeneratorService;
@@ -104,7 +102,7 @@ public class GreetingCardServiceImplTest {
 
     @Test
     public void convertGreetingCardViewModel(){
-        GreetingCardViewModel greetingCardViewModel = createMockViewModel();
+        GreetingCardViewModel greetingCardViewModel = createMockBirthDayViewModel();
         AbstractGreetingCardData abstractGreetingCardData = viewToModelConvertor.convertGreetingCardViewModel(greetingCardViewModel);
         BirthdayGreetingCardData birthdayGreetingCardData = (BirthdayGreetingCardData)abstractGreetingCardData;
 
@@ -117,6 +115,12 @@ public class GreetingCardServiceImplTest {
     @Test
     public void postBirthDayCard_Test(){
         Boolean isSuccess = postBirthDayCard();
+        assert isSuccess;
+    }
+
+    @Test
+    public void postGetWellCard_Test(){
+        Boolean isSuccess = postGetWellCard();
         assert isSuccess;
     }
 
@@ -136,7 +140,7 @@ public class GreetingCardServiceImplTest {
         assert dataStorageConnection.clearDataStorage();
         assert postBirthDayCard();
 
-        GreetingCardViewModel greetingCardViewModel = createMockViewModel();
+        GreetingCardViewModel greetingCardViewModel = createMockBirthDayViewModel();
         AbstractGreetingCardData abstractGreetingCardData2 = viewToModelConvertor.convertGreetingCardViewModel(greetingCardViewModel);
         BirthdayGreetingCardData birthdayGreetingCardData2 = (BirthdayGreetingCardData)abstractGreetingCardData2;
         birthdayGreetingCardData2.setRecipientAge(22);
@@ -155,10 +159,17 @@ public class GreetingCardServiceImplTest {
 
 
     private Boolean postBirthDayCard() {
-        GreetingCardViewModel greetingCardViewModel = createMockViewModel();
+        GreetingCardViewModel greetingCardViewModel = createMockBirthDayViewModel();
         AbstractGreetingCardData abstractGreetingCardData = viewToModelConvertor.convertGreetingCardViewModel(greetingCardViewModel);
         BirthdayGreetingCardData birthdayGreetingCardData = (BirthdayGreetingCardData)abstractGreetingCardData;
         return greetingCardService.postCard(birthdayGreetingCardData);
+    }
+
+    private Boolean postGetWellCard() {
+        GreetingCardViewModel greetingCardViewModel = createMockGetWellViewModel();
+        AbstractGreetingCardData abstractGreetingCardData = viewToModelConvertor.convertGreetingCardViewModel(greetingCardViewModel);
+        GetWellGreetingCardData getWellGreetingCardData = (GetWellGreetingCardData)abstractGreetingCardData;
+        return greetingCardService.postCard(getWellGreetingCardData);
     }
 
 
@@ -175,12 +186,21 @@ public class GreetingCardServiceImplTest {
         return birthdayGreetingCardData;
     }
 
-    private GreetingCardViewModel createMockViewModel(){
+    private GreetingCardViewModel createMockBirthDayViewModel(){
         GreetingCardViewModel ret = new GreetingCardViewModel();
         ret.setSenderName(mockSenderName);
         ret.setRecipientName(mockRecipientName);
         ret.setRecipientAge(mockRecipientAge);
         ret.setTemplateType(mockTemplateType);
+
+        return ret;
+    }
+
+    private GreetingCardViewModel createMockGetWellViewModel(){
+        GreetingCardViewModel ret = new GreetingCardViewModel();
+        ret.setSenderName(mockSenderName);
+        ret.setRecipientName(mockRecipientName);
+        ret.setTemplateType(GreetingCardTemplateTypeEnum.GET_WELL_SOON_TEMPLATE.name());
 
         return ret;
     }

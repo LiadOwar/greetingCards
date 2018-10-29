@@ -3,6 +3,7 @@ package greetingApp.services;
 import greetingApp.GreetingCardObject.AbstractGreetingCard;
 import greetingApp.greetingCardData.AbstractGreetingCardData;
 import greetingApp.greetingCardData.BirthdayGreetingCardData;
+import greetingApp.greetingCardData.GetWellGreetingCardData;
 import greetingApp.viewmodel.GreetingCardViewModel;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,9 @@ public class ViewToModelConvertorImpl implements ViewToModelConvertor {
                 ret = new BirthdayGreetingCardData(viewSenderName, viewRecipientName , viewRecipientAge);
                 break;
             }
+            case GET_WELL_SOON_TEMPLATE:
+                ret = new GetWellGreetingCardData(viewSenderName, viewRecipientName);
+                break;
             default: break;
         }
         return ret;

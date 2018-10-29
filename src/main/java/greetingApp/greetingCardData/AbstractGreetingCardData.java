@@ -11,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         include = JsonTypeInfo.As.PROPERTY,
         property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = BirthdayGreetingCardData.class, name = "birthdayGreetingCardData")
+        @JsonSubTypes.Type(value = BirthdayGreetingCardData.class, name = "birthdayGreetingCardData"),
+        @JsonSubTypes.Type(value = GetWellGreetingCardData.class, name = "getWellGreetingCardData")
 })
 public abstract class AbstractGreetingCardData {
     protected String senderName;
