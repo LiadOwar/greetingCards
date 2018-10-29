@@ -2,6 +2,7 @@ package greetingApp.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import greetingApp.GreetingCardObject.AbstractGreetingCard;
 import greetingApp.greetingCardData.AbstractGreetingCardData;
 import greetingApp.greetingCardData.BirthdayGreetingCardData;
 import greetingApp.services.DataStorageConnection.DataStorageConnection;
@@ -114,27 +115,50 @@ public class GreetingCardServiceImplTest {
     }
 
     @Test
-    public void connectionToDataStorage_Test(){
-        BirthdayGreetingCardData mockGreetingCardAbstructData = createMockGreetingCardAbstructData();
-        ObjectMapper mapper = new ObjectMapper();
-        String dataStorageConnectionQuarry = null;
-        try {
-            dataStorageConnectionQuarry = mapper.writeValueAsString(mockGreetingCardAbstructData);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        Boolean isSuccess = dataStorageConnection.postToDataStorage(dataStorageConnectionQuarry);
+    public void postBirthDayCard_Test(){
+        Boolean isSuccess = postBirthDayCard();
         assert isSuccess;
     }
 
     @Test
-    public void postBirthDayCard_Test(){
+    public void get1SavedBirthdayCardFromStorage_Test(){
+        assert dataStorageConnection.clearDataStorage();
+        assert postBirthDayCard();
+        List<AbstractGreetingCardData> savedCards = greetingCardService.getSavedCards();
+        assert savedCards.size() == 1;
+        AbstractGreetingCardData abstractGreetingCardData = savedCards.get(0);
+        BirthdayGreetingCardData birthdayGreetingCardData = (BirthdayGreetingCardData) abstractGreetingCardData;
+        assert birthdayGreetingCardData.getRecipientAge() == mockRecipientAge;
+    }
+
+    @Test
+    public void post2BirthDayCards_Test(){
+        assert dataStorageConnection.clearDataStorage();
+        assert postBirthDayCard();
+
+        GreetingCardViewModel greetingCardViewModel = createMockViewModel();
+        AbstractGreetingCardData abstractGreetingCardData2 = viewToModelConvertor.convertGreetingCardViewModel(greetingCardViewModel);
+        BirthdayGreetingCardData birthdayGreetingCardData2 = (BirthdayGreetingCardData)abstractGreetingCardData2;
+        birthdayGreetingCardData2.setRecipientAge(22);
+        birthdayGreetingCardData2.setRecipientName("Mock 2nd Name");
+        assert greetingCardService.postCard(birthdayGreetingCardData2);
+        List<AbstractGreetingCardData> savedCards = greetingCardService.getSavedCards();
+        assert savedCards.size() == 2;
+    }
+
+    @Test
+    public void clearDataStorage_Test(){
+        postBirthDayCard();
+        dataStorageConnection.clearDataStorage();
+    }
+
+
+
+    private Boolean postBirthDayCard() {
         GreetingCardViewModel greetingCardViewModel = createMockViewModel();
         AbstractGreetingCardData abstractGreetingCardData = viewToModelConvertor.convertGreetingCardViewModel(greetingCardViewModel);
         BirthdayGreetingCardData birthdayGreetingCardData = (BirthdayGreetingCardData)abstractGreetingCardData;
-        Boolean isSuccess = greetingCardService.postCard(birthdayGreetingCardData);
-        assert isSuccess;
+        return greetingCardService.postCard(birthdayGreetingCardData);
     }
 
 

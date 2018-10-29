@@ -1,5 +1,6 @@
 package greetingApp.services;
 
+import greetingApp.GreetingCardObject.AbstractGreetingCard;
 import greetingApp.greetingCardData.AbstractGreetingCardData;
 import greetingApp.services.DataStorageConnection.DataStorageConnection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,15 @@ public class GreetingCardServiceImpl implements GreetingCardService {
 
     @Override
     public Boolean postCard(AbstractGreetingCardData greetingCardData) {
-        return false;
+
+        Boolean isPostSuccess = dataStorageConnection.postGreetingCardToDataStorage(greetingCardData);
+        return isPostSuccess;
     }
+
+    @Override
+    public List<AbstractGreetingCardData> getSavedCards() {
+        List<AbstractGreetingCardData> ret = dataStorageConnection.getSavedCards();
+        return ret;
+    }
+
 }

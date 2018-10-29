@@ -1,5 +1,6 @@
 package greetingApp.services;
 
+import greetingApp.GreetingCardObject.AbstractGreetingCard;
 import greetingApp.greetingCardData.AbstractGreetingCardData;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface GreetingCardService {
     List<GreetingCardTemplate> getTemplates();
 
     Boolean postCard(AbstractGreetingCardData greetingCardData);
+
+    List<AbstractGreetingCardData> getSavedCards();
 }

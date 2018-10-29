@@ -13,6 +13,9 @@ public class BirthdayGreetingCardData extends AbstractGreetingCardData{
         this.templateType = GreetingCardTemplateTypeEnum.BIRTH_DAY_TEMPLATE.name();
     }
 
+    public BirthdayGreetingCardData() {
+    }
+
     public Integer getRecipientAge() {
         return recipientAge;
     }
