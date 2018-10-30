@@ -1,5 +1,14 @@
 import {Component, OnInit} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
+import {
+    ViewChild,
+    ViewContainerRef,
+    ComponentFactoryResolver,
+    ComponentRef,
+    ComponentFactory
+} from '@angular/core';
+import {BirthdayCardComponent} from "../greetingCard/birthday-card/birthday-card.component";
+import {GetwellCardComponent} from "../greetingCard/getwell-card/getwell-card.component";
 
 @Component({
   selector: 'app-homepage',
@@ -10,8 +19,10 @@ export class HomepageComponent implements OnInit {
   readonly ROOT_URL = 'http://localhost:8080';
   templates: any[] = [];
   selectedTemplate : any = 'na';
+  savedGreetingCards: any[] = [];
+   @ViewChild('newcardcontainer', { read: ViewContainerRef }) entry: ViewContainerRef;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private resolver: ComponentFactoryResolver) {
   }
 
   ngOnInit() {
@@ -36,5 +47,40 @@ export class HomepageComponent implements OnInit {
   unSelectTemplate(){
     this.selectedTemplate = 'na';
   }
+
+  getSavedGreetingCards(){
+    const url = this.ROOT_URL + '/greetingCard/getAllCards';
+    this.http.get(url).subscribe((response) => this.savedGreetingCards = <any[]>response; console.log("length " + this.savedGreetingCards.length); this.createSavedCardsComponent() ; );
+    console.log(this.savedGreetingCards);
+  }
+
+  createSavedCardsComponent() {
+    
+    this.entry.clear();
+    var component;
+    var savedCard;
+    
+   console.log("internal length " + this.savedGreetingCards.length);
+    for (var i = 0 ; i<this.savedGreetingCards.length; i++) { 
+    console.log("i =  " + i + " savedGreetingCards[i].templateType " + this.savedGreetingCards[i].templateType);
+    
+      if (this.savedGreetingCards[i].templateType == 'BIRTH_DAY_TEMPLATE'){
+        component = BirthdayCardComponent;
+      }
+      else 
+        if (this.savedGreetingCards[i].templateType == 'GET_WELL_SOON_TEMPLATE'){
+        component = GetwellCardComponent;
+      }
+        const factory = this.resolver.resolveComponentFactory(component);
+        const componentRef = this.entry.createComponent(factory);
+        console.log(savedCard + " " + this.savedGreetingCards[i]);
+        componentRef.instance.cardData = this.savedGreetingCards[i]);
+         savedCard = i;
+      }
+      console.log("total " + i);
+     
+    }
+    
+}
 
 }

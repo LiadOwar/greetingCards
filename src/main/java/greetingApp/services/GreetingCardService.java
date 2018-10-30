@@ -14,4 +14,5 @@ public interface GreetingCardService {
     Boolean postCard(AbstractGreetingCardData greetingCardData);
 
     List<AbstractGreetingCardData> getSavedCards();
+
 }

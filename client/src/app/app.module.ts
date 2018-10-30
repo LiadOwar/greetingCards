@@ -7,6 +7,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { BirthdayTemplateComponent } from './Templates/birthday-template/birthday-template.component';
 import { GetwellTemplateComponent } from './Templates/getwell-template/getwell-template.component';
 import { BirthdayCardComponent } from './greetingCard/birthday-card/birthday-card.component';
+import { GetwellCardComponent } from './greetingCard/getwell-card/getwell-card.component';
 
 @NgModule({
   declarations: [
@@ -14,12 +15,14 @@ import { BirthdayCardComponent } from './greetingCard/birthday-card/birthday-car
     HomepageComponent,
     BirthdayTemplateComponent,
     GetwellTemplateComponent,
-    BirthdayCardComponent
+    BirthdayCardComponent,
+    GetwellCardComponent
   ],
   imports: [
     BrowserModule, HttpClientModule, FormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [BirthdayCardComponent, GetwellCardComponent]
 })
 export class AppModule { }

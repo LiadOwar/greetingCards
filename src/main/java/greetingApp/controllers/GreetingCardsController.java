@@ -1,5 +1,6 @@
 package greetingApp.controllers;
 
+import greetingApp.GreetingCardObject.AbstractGreetingCard;
 import greetingApp.greetingCardData.AbstractGreetingCardData;
 import greetingApp.services.GreetingCardService;
 import greetingApp.services.GreetingCardTemplate;
@@ -8,6 +9,7 @@ import greetingApp.viewmodel.GreetingCardViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,5 +40,18 @@ public class GreetingCardsController {
         }
 
         return response;
+    }
+
+    @CrossOrigin
+    @RequestMapping("/greetingCard/getAllCards")
+    public List<GreetingCardViewModel> getAllGreetingCards() throws Exception{
+        System.out.println("get all cards");
+        List<GreetingCardViewModel> ret = new ArrayList<>();
+        List<AbstractGreetingCardData> greetingCardDataList = greetingCardService.getSavedCards();
+        for (AbstractGreetingCardData greetingCard : greetingCardDataList){
+            GreetingCardViewModel greetingCardViewModel = convertor.convertGreetingCardData(greetingCard);
+            ret.add(greetingCardViewModel);
+        }
+        return ret;
     }
 }

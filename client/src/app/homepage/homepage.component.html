@@ -1,5 +1,6 @@
 
 <button (click) = "getCatalog()">Get Catalog</button>
+<button (click) = "getSavedGreetingCards()">Show Your Cards List</button>
 <br>
 <div *ngFor="let template of templates">
   <span *ngIf = "template.type == 'BIRTH_DAY_TEMPLATE' "><button [ngClass] = "['BIRTH_DAY_TEMPLATE']"(click) = "selectTemplate(template)" >Birth Day</button></span>
@@ -9,6 +10,10 @@
   <div *ngIf = "selectedTemplate != 'na'">Make Your Card
     <app-birthday-template *ngIf = "selectedTemplate.type == 'BIRTH_DAY_TEMPLATE'"></app-birthday-template>
     <app-getwell-template *ngIf = "selectedTemplate.type == 'GET_WELL_SOON_TEMPLATE'"></app-getwell-template>
+  </div>
+  <div>
+    <template #newcardcontainer></template>
+     
   </div>
 </div>
 

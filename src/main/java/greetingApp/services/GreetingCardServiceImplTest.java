@@ -250,6 +250,20 @@ public class GreetingCardServiceImplTest {
     }
 
     @Test
+    public void getAllSavedGreetingCards_Test(){
+        dataStorageConnection.clearDataStorage();
+        postGetWellCard();
+        postBirthDayCard();
+        try {
+            List<GreetingCardViewModel> allGreetingCards = greetingCardsController.getAllGreetingCards();
+           assert allGreetingCards.size() == 2;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void convertCardDataToViewModel_Test(){
         BirthdayGreetingCardData mockGreetingCardAbstructData = createMockGreetingCardAbstructData();
         GreetingCardViewModel greetingCardViewModel = clientServerConvertor.convertGreetingCardData(mockGreetingCardAbstructData);
