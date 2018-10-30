@@ -3,7 +3,7 @@ package greetingApp.controllers;
 import greetingApp.greetingCardData.AbstractGreetingCardData;
 import greetingApp.services.GreetingCardService;
 import greetingApp.services.GreetingCardTemplate;
-import greetingApp.services.ViewToModelConvertor;
+import greetingApp.services.convertors.ClientServerConvertor;
 import greetingApp.viewmodel.GreetingCardViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ public class GreetingCardsController {
     @Autowired
     private GreetingCardService greetingCardService;
     @Autowired
-    private ViewToModelConvertor convertor;
+    private ClientServerConvertor convertor;
 
     @CrossOrigin
     @RequestMapping("/greetingCard/catalog")
@@ -29,12 +29,14 @@ public class GreetingCardsController {
 
     @CrossOrigin
     @RequestMapping(method= RequestMethod.POST, value ="/greetingCard/createCard")
-    public Boolean createCard(@RequestBody GreetingCardViewModel greetingCardViewModel) throws Exception{
+    public GreetingCardViewModel createCard(@RequestBody GreetingCardViewModel greetingCardViewModel) throws Exception{
         System.out.println(String.format("got post request with body: [%s]", greetingCardViewModel));
         AbstractGreetingCardData cardData = convertor.convertGreetingCardViewModel(greetingCardViewModel);
-        greetingCardService.postCard(cardData);
+        GreetingCardViewModel response = null;
+        if (greetingCardService.postCard(cardData)){
+            response = convertor.convertGreetingCardData(cardData);
+        }
 
-
-        return true;
+        return response;
     }
 }

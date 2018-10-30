@@ -9,6 +9,15 @@ public class GreetingCardViewModel {
     private String recipientName;
     private String templateType;
 
+    public GreetingCardViewModel(String senderName, String recipientName, String templateType) {
+        this.senderName = senderName;
+        this.recipientName = recipientName;
+        this.templateType = templateType;
+    }
+
+    public GreetingCardViewModel() {
+    }
+
     public String getSenderName() {
         return senderName;
     }

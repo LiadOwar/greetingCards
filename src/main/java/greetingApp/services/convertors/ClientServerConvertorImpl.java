@@ -1,9 +1,9 @@
-package greetingApp.services;
+package greetingApp.services.convertors;
 
-import greetingApp.GreetingCardObject.AbstractGreetingCard;
 import greetingApp.greetingCardData.AbstractGreetingCardData;
 import greetingApp.greetingCardData.BirthdayGreetingCardData;
 import greetingApp.greetingCardData.GetWellGreetingCardData;
+import greetingApp.services.GreetingCardTemplateTypeEnum;
 import greetingApp.viewmodel.GreetingCardViewModel;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * Created by liadm on 28/10/2018.
  */
 @Component
-public class ViewToModelConvertorImpl implements ViewToModelConvertor {
+public class ClientServerConvertorImpl implements ClientServerConvertor {
     @Override
     public AbstractGreetingCardData convertGreetingCardViewModel(GreetingCardViewModel view) {
         AbstractGreetingCardData ret = null;
@@ -40,5 +40,28 @@ public class ViewToModelConvertorImpl implements ViewToModelConvertor {
         }
         return ret;
 
+    }
+
+    @Override
+    public GreetingCardViewModel convertGreetingCardData(AbstractGreetingCardData cardData) {
+        GreetingCardViewModel ret = null;
+        String dataRecipientName = cardData.getRecipientName();
+        String dataSenderName = cardData.getSenderName();
+        String dataTemplateType = cardData.getTemplateType();
+
+        GreetingCardTemplateTypeEnum dataTemplateTypeEnum = GreetingCardTemplateTypeEnum.valueOf(dataTemplateType);
+        switch (dataTemplateTypeEnum){
+            case  BIRTH_DAY_TEMPLATE : {
+               BirthdayGreetingCardData birthdayGreetingCardData = (BirthdayGreetingCardData)cardData;
+                ret = new GreetingCardViewModel(dataSenderName, dataRecipientName , dataTemplateType);
+                ret.setRecipientAge(birthdayGreetingCardData.getRecipientAge());
+                break;
+            }
+            case GET_WELL_SOON_TEMPLATE:
+                ret = new GreetingCardViewModel(dataSenderName, dataRecipientName, dataTemplateType);
+                break;
+            default: break;
+        }
+        return ret;
     }
 }
