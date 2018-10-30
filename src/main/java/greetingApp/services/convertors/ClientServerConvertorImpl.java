@@ -7,17 +7,26 @@ import greetingApp.services.GreetingCardTemplateTypeEnum;
 import greetingApp.viewmodel.GreetingCardViewModel;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 /**
  * Created by liadm on 28/10/2018.
  */
 @Component
 public class ClientServerConvertorImpl implements ClientServerConvertor {
+
+
     @Override
     public AbstractGreetingCardData convertGreetingCardViewModel(GreetingCardViewModel view) {
         AbstractGreetingCardData ret = null;
+        String viewUUid = view.getUUid();
         String viewRecipientName = view.getRecipientName();
         String viewTemplateType = view.getTemplateType();
         String viewSenderName = view.getSenderName();
+
+        if(viewUUid == null){
+            viewUUid = generateUuid();
+        }
 
         GreetingCardTemplateTypeEnum viewTemplateTypeEnum = GreetingCardTemplateTypeEnum.valueOf(viewTemplateType);
         GreetingCardTemplateTypeEnum birthDAyCardTemplateName = GreetingCardTemplateTypeEnum.BIRTH_DAY_TEMPLATE;
@@ -38,6 +47,7 @@ public class ClientServerConvertorImpl implements ClientServerConvertor {
                 break;
             default: break;
         }
+        ret.setUUid(viewUUid);
         return ret;
 
     }
@@ -45,6 +55,7 @@ public class ClientServerConvertorImpl implements ClientServerConvertor {
     @Override
     public GreetingCardViewModel convertGreetingCardData(AbstractGreetingCardData cardData) {
         GreetingCardViewModel ret = null;
+        String dataUuid = cardData.getUUid();
         String dataRecipientName = cardData.getRecipientName();
         String dataSenderName = cardData.getSenderName();
         String dataTemplateType = cardData.getTemplateType();
@@ -62,6 +73,12 @@ public class ClientServerConvertorImpl implements ClientServerConvertor {
                 break;
             default: break;
         }
+        ret.setUUid(dataUuid);
         return ret;
+    }
+
+    private String generateUuid(){
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        return uuid;
     }
 }

@@ -4,6 +4,7 @@ package greetingApp.viewmodel;
  * Created by liadm on 28/10/2018.
  */
 public class GreetingCardViewModel {
+    private String uUid;
     private String senderName;
     private Integer recipientAge;
     private String recipientName;
@@ -48,5 +49,13 @@ public class GreetingCardViewModel {
 
     public void setTemplateType(String templateType) {
         this.templateType = templateType;
+    }
+
+    public String getUUid() {
+        return uUid;
+    }
+
+    public void setUUid(String uUid) {
+        this.uUid = uUid;
     }
 }

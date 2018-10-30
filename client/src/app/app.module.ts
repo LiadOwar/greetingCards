@@ -6,13 +6,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomepageComponent } from './homepage/homepage.component';
 import { BirthdayTemplateComponent } from './Templates/birthday-template/birthday-template.component';
 import { GetwellTemplateComponent } from './Templates/getwell-template/getwell-template.component';
+import { BirthdayCardComponent } from './greetingCard/birthday-card/birthday-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
     BirthdayTemplateComponent,
-    GetwellTemplateComponent
+    GetwellTemplateComponent,
+    BirthdayCardComponent
   ],
   imports: [
     BrowserModule, HttpClientModule, FormsModule

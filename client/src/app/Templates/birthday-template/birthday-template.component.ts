@@ -23,14 +23,24 @@ export class BirthdayTemplateComponent implements OnInit {
   recipientName: any;
   templateType: any;
   greetingCard: BirthdayGreetingCard;
+  homePage : HomepageComponent;
+
+  textLine1 : any = 'Happy';
+  textLine2 : any = 'Birthday';
+  textLine3 : any = 'Wishes you all the best in the world';
+  textLine4 : any = 'From';
+
+  allTextLines[] :  {textLine1, textLine2, textLine3, textLine4};
 
   constructor(private http: HttpClient, homePage : HomepageComponent) {
+    this.homePage = homePage;
     this.ROOT_URL = homePage.getRootURL();
     this.templateType = homePage.getSelectedTemplateType();
     this.httpOptions =  {headers: new HttpHeaders({
       'Content-Type':  'application/json',
       'Authorization': 'my-auth-token'
     })};
+    
   }
 
   ngOnInit() {
@@ -43,6 +53,11 @@ export class BirthdayTemplateComponent implements OnInit {
     console.log("posting " + this.greetingCard + "to " + url);
     this.http.post(url, this.greetingCard, httpOptions).subscribe((response) => console.log("Response: " + response));
   }
+
+  cancel(){
+    this.homePage.unSelectTemplate();
+  }
+
 
 }
 class BirthdayGreetingCard {

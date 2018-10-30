@@ -1,5 +1,6 @@
 package greetingApp.greetingCardData;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = GetWellGreetingCardData.class, name = "getWellGreetingCardData")
 })
 public abstract class AbstractGreetingCardData {
+    protected String uUid;
     protected String senderName;
     protected String recipientName;
     protected String templateType;
@@ -22,6 +24,16 @@ public abstract class AbstractGreetingCardData {
     public AbstractGreetingCardData(String senderName, String recipientName) {
         this.senderName = senderName;
         this.recipientName = recipientName;
+    }
+
+    public void setUUid(String uUid) {
+        this.uUid = uUid;
+    }
+
+    @JsonIgnore
+    public String getUUid() {
+
+        return uUid;
     }
 
     public AbstractGreetingCardData() {
@@ -45,5 +57,27 @@ public abstract class AbstractGreetingCardData {
 
     public String getTemplateType() {
         return templateType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AbstractGreetingCardData that = (AbstractGreetingCardData) o;
+
+        if (!uUid.equals(that.uUid)) return false;
+        if (!senderName.equals(that.senderName)) return false;
+        if (!recipientName.equals(that.recipientName)) return false;
+        return templateType.equals(that.templateType);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uUid.hashCode();
+        result = 31 * result + senderName.hashCode();
+        result = 31 * result + recipientName.hashCode();
+        result = 31 * result + templateType.hashCode();
+        return result;
     }
 }

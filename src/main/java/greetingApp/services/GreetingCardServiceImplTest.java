@@ -1,5 +1,7 @@
 package greetingApp.services;
 
+import greetingApp.GreetingCardObject.AbstractGreetingCard;
+import greetingApp.controllers.GreetingCardsController;
 import greetingApp.greetingCardData.AbstractGreetingCardData;
 import greetingApp.greetingCardData.BirthdayGreetingCardData;
 import greetingApp.greetingCardData.GetWellGreetingCardData;
@@ -40,6 +42,9 @@ public class GreetingCardServiceImplTest {
 
     @Autowired
     private DataStorageConnection dataStorageConnection;
+
+    @Autowired
+    private GreetingCardsController greetingCardsController;
 
     private GreetingCardGeneratorService getBirthDayCardGenerator() {
         String birthDayCardGeneratorClassSimpleName = GreetingCardsGeneratorConstants.BIRTH_DAY_GENERATOR_NAME;
@@ -158,22 +163,119 @@ public class GreetingCardServiceImplTest {
     }
 
     @Test
-    public void convertCardDataToViewModel(){
+    public void generateUUidFromNewGreetingCardViewModel(){
+        GreetingCardViewModel mockBirthDayViewModel = createMockBirthDayViewModel();
+        AbstractGreetingCardData greetingCardData = clientServerConvertor.convertGreetingCardViewModel(mockBirthDayViewModel);
+        assert greetingCardData.getUUid() != null;
+    }
+
+    @Test
+    public void assignGreetingCardViewModelUUidFromData(){
+        GreetingCardViewModel mockBirthDayViewModel = createMockBirthDayViewModel();
+        AbstractGreetingCardData greetingCardData = clientServerConvertor.convertGreetingCardViewModel(mockBirthDayViewModel);
+        String dataUUid = greetingCardData.getUUid();
+        GreetingCardViewModel convertedGreetingCardViewModel = clientServerConvertor.convertGreetingCardData(greetingCardData);
+        String convertedGreetingCardViewModelUUid = convertedGreetingCardViewModel.getUUid();
+        assert convertedGreetingCardViewModelUUid.equals(dataUUid);
+    }
+
+    @Test
+    public void differentGreetingCardViewModelUUid_test(){
+        GreetingCardViewModel mockBirthDayViewModel = createMockBirthDayViewModel();
+        GreetingCardViewModel mockGetWellViewModel = createMockGetWellViewModel();
+        try {
+            GreetingCardViewModel responseCardViewModel1 = greetingCardsController.createCard(mockBirthDayViewModel);
+            GreetingCardViewModel responseCardViewModel2 = greetingCardsController.createCard(mockGetWellViewModel);
+
+            String responseCardViewModel1UUid = responseCardViewModel1.getUUid();
+            String responseCardViewModel2UUid = responseCardViewModel2.getUUid();
+
+            assert !responseCardViewModel1UUid.equals(responseCardViewModel2UUid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void getSavedGreetingCardDataFromViewModel_Test(){
+        dataStorageConnection.clearDataStorage();
+        GreetingCardViewModel mockBirthDayViewModel = createMockBirthDayViewModel();
+        GreetingCardViewModel mockGetWellViewModel = createMockGetWellViewModel();
+        try {
+            GreetingCardViewModel responseCardViewModel1 = greetingCardsController.createCard(mockBirthDayViewModel);
+            GreetingCardViewModel responseCardViewModel2 = greetingCardsController.createCard(mockGetWellViewModel);
+
+            String responseCardViewModel1UUid = responseCardViewModel1.getUUid();
+            String responseCardViewModel2UUid = responseCardViewModel2.getUUid();
+
+            Boolean gotSameUuidForCard1 = false;
+            Boolean gotSameUuidForCard2 = false;
+
+            List<AbstractGreetingCardData> savedCards = dataStorageConnection.getSavedCards();
+            for (AbstractGreetingCardData greetingCardData : savedCards){
+                if (responseCardViewModel1UUid.equals(greetingCardData.getUUid())){
+                    gotSameUuidForCard1 = true;
+                }
+                if (responseCardViewModel2UUid.equals(greetingCardData.getUUid())){
+                    gotSameUuidForCard2 = true;
+                }
+            }
+            assert gotSameUuidForCard1;
+            assert gotSameUuidForCard2;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void compareTwoSameGreetingCardData_Test(){
+        BirthdayGreetingCardData mockGreetingCardAbstructData1 = createMockGreetingCardAbstructData();
+        BirthdayGreetingCardData mockGreetingCardAbstructData2 = createMockGreetingCardAbstructData();
+
+        mockGreetingCardAbstructData1.setUUid("mockUUid");
+        mockGreetingCardAbstructData2.setUUid("mockUUid");
+
+        assert mockGreetingCardAbstructData1.equals(mockGreetingCardAbstructData2);
+    }
+
+    @Test
+    public void compareTwoDifferentGreetingCardData_Test(){
+        BirthdayGreetingCardData mockGreetingCardAbstructData1 = createMockGreetingCardAbstructData();
+        BirthdayGreetingCardData mockGreetingCardAbstructData2 = createMockGreetingCardAbstructData();
+
+        mockGreetingCardAbstructData1.setUUid("mockUUid");
+        mockGreetingCardAbstructData2.setUUid("different_mockUUid");
+
+        assert !mockGreetingCardAbstructData1.equals(mockGreetingCardAbstructData2);
+    }
+
+    @Test
+    public void convertCardDataToViewModel_Test(){
         BirthdayGreetingCardData mockGreetingCardAbstructData = createMockGreetingCardAbstructData();
         GreetingCardViewModel greetingCardViewModel = clientServerConvertor.convertGreetingCardData(mockGreetingCardAbstructData);
-        assert greetingCardViewModel.getSenderName() == (mockGreetingCardAbstructData.getSenderName());
+        assert mockGreetingCardAbstructData.getUUid() != null;
+        assert greetingCardViewModel.getUUid() == (mockGreetingCardAbstructData.getUUid());
+        assert greetingCardViewModel.getSenderName().equals(mockGreetingCardAbstructData.getSenderName());
         assert greetingCardViewModel.getRecipientName().equals(mockGreetingCardAbstructData.getRecipientName());
         assert greetingCardViewModel.getTemplateType().equals(mockGreetingCardAbstructData.getTemplateType());
         assert greetingCardViewModel.getRecipientAge() == (mockGreetingCardAbstructData.getRecipientAge());
     }
 
-    @Test
-    public void postBirthDayCardAndGetWellCard(){
-        clearDataStorage_Test();
-        final Boolean aBoolean = postBirthDayCard();
-        postGetWellCard();
 
-    }
+//    @Test
+//    public void compareDifferentCardsDataWithSameData(){
+//        BirthdayGreetingCardData birthdayGreetingCardData1 = new BirthdayGreetingCardData(mockSenderName, mockRecipientName, mockRecipientAge);
+//        BirthdayGreetingCardData birthdayGreetingCardData2 = new BirthdayGreetingCardData(mockSenderName, mockRecipientName, mockRecipientAge);
+//        assert !birthdayGreetingCardData1.equals(birthdayGreetingCardData2);
+//    }
+//
+//    @Test
+//    public void postBirthDayCardAndGetWellCard(){
+//        clearDataStorage_Test();
+//        final Boolean aBoolean = postBirthDayCard();
+//        postGetWellCard();
+//        List<AbstractGreetingCardData> savedCards = dataStorageConnection.getSavedCards();
+//    }
 
 
 

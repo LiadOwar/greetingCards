@@ -1,14 +1,12 @@
 <p>
-  Happy <input #textbox type="text" [(ngModel)]="recipientAge" required/> Birthday
+  {{textLine1}} <input #textbox type="text" [(ngModel)]="recipientAge" required/> {{textLine2}}
   <input #textbox type = "text" [(ngModel)]= "recipientName" required>
-
-
 </p>
 <p>
-  Wishes you all the best in the world
+  {{textLine3}}
 </p>
 <p>
-  From: <input #textbox type = "text" [(ngModel)]= "senderName" required>
+  {{textLine4}} <input #textbox type = "text" [(ngModel)]= "senderName" required>
 </p>
 <button (click) = "createCard()">Create Card</button>
 <button (click) = "cancel()">Cancel</button>
