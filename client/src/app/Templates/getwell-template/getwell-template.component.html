@@ -1,3 +1,12 @@
 <p>
-  getwell-template works!
+  {{textLine1 }}<input #textbox type = "text" [(ngModel)]= "recipientName" required> {{textLine2}}
+
 </p>
+<p>
+  {{textLine3}}
+</p>
+<p>
+  {{textLine4}} <input #textbox type = "text" [(ngModel)]= "senderName" required>
+</p>
+<button (click) = "createCard()">Create Card</button>
+<button (click) = "cancel()">Cancel</button>

@@ -1,14 +1,7 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {
-    ViewChild,
-    ViewContainerRef,
-    ComponentFactoryResolver,
-    ComponentRef,
-    ComponentFactory
-} from '@angular/core';
-import {BirthdayCardComponent} from "../greetingCard/birthday-card/birthday-card.component";
 import {GetwellCardComponent} from "../greetingCard/getwell-card/getwell-card.component";
+import {BirthdayCardComponent} from "../greetingCard/birthday-card/birthday-card.component";
 
 @Component({
   selector: 'app-homepage',
@@ -18,19 +11,24 @@ import {GetwellCardComponent} from "../greetingCard/getwell-card/getwell-card.co
 export class HomepageComponent implements OnInit {
   readonly ROOT_URL = 'http://localhost:8080';
   templates: any[] = [];
-  selectedTemplate : any = 'na';
+  selectedTemplate: any = 'na';
   savedGreetingCards: any[] = [];
-   @ViewChild('newcardcontainer', { read: ViewContainerRef }) entry: ViewContainerRef;
+  showGetYourCardsList: any = false;
+  showHideText: any = 'See Your Cards';
+  componentRef: any;
+  @ViewChild('newcardcontainer', {read: ViewContainerRef}) entry: ViewContainerRef;
 
   constructor(private http: HttpClient, private resolver: ComponentFactoryResolver) {
   }
 
   ngOnInit() {
   }
-  getRootURL(){
+
+  getRootURL() {
     return this.ROOT_URL;
   }
-  getSelectedTemplateType(){
+
+  getSelectedTemplateType() {
     return this.selectedTemplate.type;
   }
 
@@ -39,48 +37,54 @@ export class HomepageComponent implements OnInit {
     this.http.get(url).subscribe((response) => this.templates = <any[]>response);
   }
 
-  selectTemplate(template: any){
-   console.log("selectTemplate" + template.type);
-   this.selectedTemplate = template;
+  selectTemplate(template: any) {
+    console.log("selectTemplate" + template.type);
+    this.selectedTemplate = template;
   }
 
-  unSelectTemplate(){
+  unSelectTemplate() {
     this.selectedTemplate = 'na';
   }
 
-  getSavedGreetingCards(){
+  getSavedGreetingCards() {
     const url = this.ROOT_URL + '/greetingCard/getAllCards';
-    this.http.get(url).subscribe((response) => this.savedGreetingCards = <any[]>response; console.log("length " + this.savedGreetingCards.length); this.createSavedCardsComponent() ; );
+    this.http.get(url).subscribe((response) => {
+      this.savedGreetingCards = <any[]>response;
+      console.log("length " + this.savedGreetingCards.length);
+      this.createSavedCardsComponent();
+    });
     console.log(this.savedGreetingCards);
   }
 
   createSavedCardsComponent() {
-    
-    this.entry.clear();
-    var component;
-    var savedCard;
-    
-   console.log("internal length " + this.savedGreetingCards.length);
-    for (var i = 0 ; i<this.savedGreetingCards.length; i++) { 
-    console.log("i =  " + i + " savedGreetingCards[i].templateType " + this.savedGreetingCards[i].templateType);
-    
-      if (this.savedGreetingCards[i].templateType == 'BIRTH_DAY_TEMPLATE'){
-        component = BirthdayCardComponent;
-      }
-      else 
-        if (this.savedGreetingCards[i].templateType == 'GET_WELL_SOON_TEMPLATE'){
-        component = GetwellCardComponent;
-      }
+    if (!this.showGetYourCardsList) {
+
+      this.entry.clear();
+      let component;
+
+      console.log("internal length " + this.savedGreetingCards.length);
+      for (let i = 0; i < this.savedGreetingCards.length; i++) {
+        console.log("i =  " + i + " savedGreetingCards[i].templateType " + this.savedGreetingCards[i].templateType);
+
+        if (this.savedGreetingCards[i].templateType == 'BIRTH_DAY_TEMPLATE') {
+          component = BirthdayCardComponent;
+        } else if (this.savedGreetingCards[i].templateType == 'GET_WELL_SOON_TEMPLATE') {
+          component = GetwellCardComponent;
+        }
         const factory = this.resolver.resolveComponentFactory(component);
-        const componentRef = this.entry.createComponent(factory);
-        console.log(savedCard + " " + this.savedGreetingCards[i]);
-        componentRef.instance.cardData = this.savedGreetingCards[i]);
-         savedCard = i;
+        this.componentRef = this.entry.createComponent(factory);
+        console.log(this.savedGreetingCards[i]);
+        (<any>this.componentRef.instance).cardData = this.savedGreetingCards[i];
       }
-      console.log("total " + i);
-     
+      this.showHideText = 'Hide Your Cards';
+      this.showGetYourCardsList = true;
     }
-    
-}
+    else if (this.showGetYourCardsList){
+      this.entry.clear();
+      this.showHideText = 'See Your Cards';
+      this.showGetYourCardsList = false;
+    }
+    console.log("updated showGetYourCardsList " + this.showGetYourCardsList)
+  }
 
 }

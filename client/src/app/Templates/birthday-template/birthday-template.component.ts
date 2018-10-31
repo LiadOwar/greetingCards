@@ -30,7 +30,7 @@ export class BirthdayTemplateComponent implements OnInit {
   textLine3 : any = 'Wishes you all the best in the world';
   textLine4 : any = 'From';
 
-  allTextLines[] :  {textLine1, textLine2, textLine3, textLine4};
+  allTextLines= [];//  {textLine1, textLine2, textLine3, textLine4};
 
   constructor(private http: HttpClient, homePage : HomepageComponent) {
     this.homePage = homePage;
@@ -40,7 +40,7 @@ export class BirthdayTemplateComponent implements OnInit {
       'Content-Type':  'application/json',
       'Authorization': 'my-auth-token'
     })};
-    
+
   }
 
   ngOnInit() {
