@@ -16,6 +16,11 @@ export class HomepageComponent implements OnInit {
   showGetYourCardsList: any = false;
   showHideText: any = 'See Your Cards';
   componentRef: any;
+
+  getWellTemplateText: any[] = ['Dear ','Get well soon.', 'From'];
+  birthDayTemplateText: any[] = ['Happy' ,'Birthday', 'Wishes you all the best in the world', 'From'];
+
+
   @ViewChild('newcardcontainer', {read: ViewContainerRef}) entry: ViewContainerRef;
 
   constructor(private http: HttpClient, private resolver: ComponentFactoryResolver) {
@@ -61,20 +66,25 @@ export class HomepageComponent implements OnInit {
 
       this.entry.clear();
       let component;
+      let templateText;
 
       console.log("internal length " + this.savedGreetingCards.length);
       for (let i = 0; i < this.savedGreetingCards.length; i++) {
-        console.log("i =  " + i + " savedGreetingCards[i].templateType " + this.savedGreetingCards[i].templateType);
+        //console.log("i =  " + i + " savedGreetingCards[i].templateType " + this.savedGreetingCards[i].templateType);
 
         if (this.savedGreetingCards[i].templateType == 'BIRTH_DAY_TEMPLATE') {
           component = BirthdayCardComponent;
+          templateText = this.birthDayTemplateText;
         } else if (this.savedGreetingCards[i].templateType == 'GET_WELL_SOON_TEMPLATE') {
           component = GetwellCardComponent;
+          templateText = this.getWellTemplateText;
         }
         const factory = this.resolver.resolveComponentFactory(component);
         this.componentRef = this.entry.createComponent(factory);
-        console.log(this.savedGreetingCards[i]);
+        //console.log(this.savedGreetingCards[i]);
         (<any>this.componentRef.instance).cardData = this.savedGreetingCards[i];
+        (<any>this.componentRef.instance).templateText = templateText;
+
       }
       this.showHideText = 'Hide Your Cards';
       this.showGetYourCardsList = true;
@@ -84,7 +94,7 @@ export class HomepageComponent implements OnInit {
       this.showHideText = 'See Your Cards';
       this.showGetYourCardsList = false;
     }
-    console.log("updated showGetYourCardsList " + this.showGetYourCardsList)
+    //console.log("updated showGetYourCardsList " + this.showGetYourCardsList)
   }
 
 }

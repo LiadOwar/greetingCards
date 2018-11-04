@@ -1,12 +1,10 @@
 <p>
-  {{textLine1 }}<input #textbox type = "text" [(ngModel)]= "recipientName" required> {{textLine2}}
+  {{templateText[0] }}<input #textbox type = "text" [(ngModel)]= "recipientName" required> {{templateText[1]}}
 
 </p>
+
 <p>
-  {{textLine3}}
-</p>
-<p>
-  {{textLine4}} <input #textbox type = "text" [(ngModel)]= "senderName" required>
+  {{templateText[2]}} <input #textbox type = "text" [(ngModel)]= "senderName" required>
 </p>
 <button (click) = "createCard()">Create Card</button>
 <button (click) = "cancel()">Cancel</button>

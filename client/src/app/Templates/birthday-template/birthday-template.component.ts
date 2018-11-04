@@ -25,15 +25,13 @@ export class BirthdayTemplateComponent implements OnInit {
   greetingCard: BirthdayGreetingCard;
   homePage : HomepageComponent;
 
-  textLine1 : any = 'Happy';
-  textLine2 : any = 'Birthday';
-  textLine3 : any = 'Wishes you all the best in the world';
-  textLine4 : any = 'From';
 
-  allTextLines= [];//  {textLine1, textLine2, textLine3, textLine4};
+  templateText : any[];
+
 
   constructor(private http: HttpClient, homePage : HomepageComponent) {
     this.homePage = homePage;
+    this.templateText = this.homePage.birthDayTemplateText;
     this.ROOT_URL = homePage.getRootURL();
     this.templateType = homePage.getSelectedTemplateType();
     this.httpOptions =  {headers: new HttpHeaders({

@@ -24,14 +24,17 @@ export class GetwellTemplateComponent implements OnInit {
   greetingCard: GetWellGreetingCard;
   homePage : HomepageComponent;
 
-  textLine1 : any = 'Dear ';
-  textLine2 : any = 'Get well soon.';
-  textLine3 : any = 'From';
+  templateText : any[];
 
   allTextLines= [];//  {textLine1, textLine2, textLine3};
 
   constructor(private http: HttpClient, homePage : HomepageComponent) {
     this.homePage = homePage;
+    this.templateText = this.homePage.getWellTemplateText;
+
+
+
+
     this.ROOT_URL = homePage.getRootURL();
     this.templateType = homePage.getSelectedTemplateType();
     this.httpOptions =  {headers: new HttpHeaders({
@@ -42,6 +45,7 @@ export class GetwellTemplateComponent implements OnInit {
   }
 
   ngOnInit() {
+  console.log("in get well template --- init");
 
   }
 

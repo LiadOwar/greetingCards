@@ -8,12 +8,15 @@ import { Component, OnInit, Input} from '@angular/core';
 export class BirthdayCardComponent implements OnInit {
 
   @Input() cardData : any;
+
+
   show : any = false;
   constructor() {
+  console.log("card data " + this.cardData);
   }
 
   ngOnInit() {
-  
+
   }
 
 }
