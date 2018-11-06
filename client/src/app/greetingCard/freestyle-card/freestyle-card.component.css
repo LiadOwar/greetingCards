@@ -1,0 +1,9 @@
+button {
+     width: 300px;
+     height: 200px;
+     line-height:40px;
+     font-size : 30px;
+     margin: 0;
+     padding: 0;
+     float: left;
+}
