@@ -3,20 +3,21 @@ package greetingApp.viewmodel;
 /**
  * Created by liadm on 28/10/2018.
  */
-public class GreetingCardViewModel {
-    private String uUid;
-    private String senderName;
-    private Integer recipientAge;
-    private String recipientName;
-    private String templateType;
 
-    public GreetingCardViewModel(String senderName, String recipientName, String templateType) {
+public class AbstractTemplateGreetingCardViewModel extends AbstractGreetingCardViewModel {
+
+    protected String senderName;
+    protected String recipientName;
+
+
+    public AbstractTemplateGreetingCardViewModel(String senderName, String recipientName, String templateType) {
+        super(templateType);
         this.senderName = senderName;
         this.recipientName = recipientName;
-        this.templateType = templateType;
     }
 
-    public GreetingCardViewModel() {
+    public AbstractTemplateGreetingCardViewModel(String templateType) {
+        super(templateType);
     }
 
     public String getSenderName() {
@@ -25,14 +26,6 @@ public class GreetingCardViewModel {
 
     public void setSenderName(String senderName) {
         this.senderName = senderName;
-    }
-
-    public Integer getRecipientAge() {
-        return recipientAge;
-    }
-
-    public void setRecipientAge(Integer recipientAge) {
-        this.recipientAge = recipientAge;
     }
 
     public String getRecipientName() {
@@ -51,11 +44,4 @@ public class GreetingCardViewModel {
         this.templateType = templateType;
     }
 
-    public String getUUid() {
-        return uUid;
-    }
-
-    public void setUUid(String uUid) {
-        this.uUid = uUid;
-    }
 }

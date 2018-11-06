@@ -5,15 +5,16 @@ import greetingApp.services.GreetingCardTemplateTypeEnum;
 /**
  * Created by liadm on 28/10/2018.
  */
-public class BirthdayGreetingCardData extends AbstractGreetingCardData{
+public class BirthdayGreetingCardData extends AbstractTemplateGreetingCardData {
+    private static String templateType = GreetingCardTemplateTypeEnum.BIRTH_DAY_TEMPLATE.name();
     private Integer recipientAge;
     public BirthdayGreetingCardData(String senderName, String recipientName, Integer recipientAge) {
-        super(senderName, recipientName);
+        super(senderName, recipientName, templateType);
         this.recipientAge = recipientAge;
-        this.templateType = GreetingCardTemplateTypeEnum.BIRTH_DAY_TEMPLATE.name();
     }
 
     public BirthdayGreetingCardData() {
+        super(templateType);
     }
 
     public Integer getRecipientAge() {

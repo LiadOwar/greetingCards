@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver
 import {HttpClient} from "@angular/common/http";
 import {GetwellCardComponent} from "../greetingCard/getwell-card/getwell-card.component";
 import {BirthdayCardComponent} from "../greetingCard/birthday-card/birthday-card.component";
+import {FreestyleCardComponent} from "../greetingCard/freestyle-card/freestyle-card.component";
 
 @Component({
   selector: 'app-homepage',
@@ -11,7 +12,7 @@ import {BirthdayCardComponent} from "../greetingCard/birthday-card/birthday-card
 export class HomepageComponent implements OnInit {
   readonly ROOT_URL = 'http://localhost:8080';
   templates: any[] = [];
-  selectedTemplate: any = 'na';
+  selectedTemplate: any;
   savedGreetingCards: any[] = [];
   showGetYourCardsList: any = false;
   showHideText: any = 'See Your Cards';
@@ -43,12 +44,17 @@ export class HomepageComponent implements OnInit {
   }
 
   selectTemplate(template: any) {
-    console.log("selectTemplate" + template.type);
+    console.log("selectTemplate " + template.type);
     this.selectedTemplate = template;
   }
 
+    selectNoTemplate() {
+      console.log("select NoTemplate");
+      this.selectedTemplate = 'NA';
+    }
+
   unSelectTemplate() {
-    this.selectedTemplate = 'na';
+    this.selectedTemplate = null;
   }
 
   getSavedGreetingCards() {
@@ -79,6 +85,10 @@ export class HomepageComponent implements OnInit {
           component = GetwellCardComponent;
           templateText = this.getWellTemplateText;
         }
+         else if (this.savedGreetingCards[i].templateType == 'NA') {
+                  component = FreestyleCardComponent;
+
+                }
         const factory = this.resolver.resolveComponentFactory(component);
         this.componentRef = this.entry.createComponent(factory);
         //console.log(this.savedGreetingCards[i]);
@@ -97,4 +107,8 @@ export class HomepageComponent implements OnInit {
     //console.log("updated showGetYourCardsList " + this.showGetYourCardsList)
   }
 
+  createPlainTemplateCard(){
+    const url = this.ROOT_URL + '/greetingCard/catalog';
+        this.http.get(url).subscribe((response) => this.templates = <any[]>response);
+}
 }

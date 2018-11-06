@@ -8,6 +8,8 @@ import { BirthdayTemplateComponent } from './Templates/birthday-template/birthda
 import { GetwellTemplateComponent } from './Templates/getwell-template/getwell-template.component';
 import { BirthdayCardComponent } from './greetingCard/birthday-card/birthday-card.component';
 import { GetwellCardComponent } from './greetingCard/getwell-card/getwell-card.component';
+import { FreestyleTemplateComponent } from './Templates/freestyle-template/freestyle-template.component';
+import { FreestyleCardComponent } from './greetingCard/freestyle-card/freestyle-card.component';
 
 @NgModule({
   declarations: [
@@ -16,13 +18,15 @@ import { GetwellCardComponent } from './greetingCard/getwell-card/getwell-card.c
     BirthdayTemplateComponent,
     GetwellTemplateComponent,
     BirthdayCardComponent,
-    GetwellCardComponent
+    GetwellCardComponent,
+    FreestyleTemplateComponent,
+    FreestyleCardComponent
   ],
   imports: [
     BrowserModule, HttpClientModule, FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [BirthdayCardComponent, GetwellCardComponent]
+  entryComponents: [BirthdayCardComponent, GetwellCardComponent, FreestyleCardComponent]
 })
 export class AppModule { }

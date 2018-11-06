@@ -1,11 +1,10 @@
 package greetingApp.greetingCardData;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /**
- * Created by liadm on 28/10/2018.
+ * Created by liad on 06/11/2018.
  */
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -13,50 +12,31 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = BirthdayGreetingCardData.class, name = "birthdayGreetingCardData"),
-        @JsonSubTypes.Type(value = GetWellGreetingCardData.class, name = "getWellGreetingCardData")
+        @JsonSubTypes.Type(value = GetWellGreetingCardData.class, name = "getWellGreetingCardData"),
+        @JsonSubTypes.Type(value = NoTemplateCardData.class, name = "noTemplateCardData")
 })
 public abstract class AbstractGreetingCardData {
     protected String uUid;
-    protected String senderName;
-    protected String recipientName;
     protected String templateType;
 
-    public AbstractGreetingCardData(String senderName, String recipientName) {
-        this.senderName = senderName;
-        this.recipientName = recipientName;
-    }
-
-    public void setUUid(String uUid) {
-        this.uUid = uUid;
-    }
-
-    @JsonIgnore
-    public String getUUid() {
-
-        return uUid;
-    }
-
-    public AbstractGreetingCardData() {
-    }
-
-    public String getSenderName(){
-        return senderName;
-    }
-
-    public String getRecipientName(){
-        return recipientName;
-    }
-
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
-    }
-
-    public void setRecipientName(String recipientName) {
-        this.recipientName = recipientName;
+    public AbstractGreetingCardData(String templateType) {
+        this.templateType = templateType;
     }
 
     public String getTemplateType() {
         return templateType;
+    }
+
+    public void setTemplateType(String templateType) {
+        this.templateType = templateType;
+    }
+
+    public String getuUid() {
+        return uUid;
+    }
+
+    public void setuUid(String uUid) {
+        this.uUid = uUid;
     }
 
     @Override
@@ -66,18 +46,14 @@ public abstract class AbstractGreetingCardData {
 
         AbstractGreetingCardData that = (AbstractGreetingCardData) o;
 
-        if (!uUid.equals(that.uUid)) return false;
-        if (!senderName.equals(that.senderName)) return false;
-        if (!recipientName.equals(that.recipientName)) return false;
-        return templateType.equals(that.templateType);
+        if (uUid != null ? !uUid.equals(that.uUid) : that.uUid != null) return false;
+        return templateType != null ? templateType.equals(that.templateType) : that.templateType == null;
     }
 
     @Override
     public int hashCode() {
-        int result = uUid.hashCode();
-        result = 31 * result + senderName.hashCode();
-        result = 31 * result + recipientName.hashCode();
-        result = 31 * result + templateType.hashCode();
+        int result = uUid != null ? uUid.hashCode() : 0;
+        result = 31 * result + (templateType != null ? templateType.hashCode() : 0);
         return result;
     }
 }

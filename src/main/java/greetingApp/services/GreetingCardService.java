@@ -1,7 +1,7 @@
 package greetingApp.services;
 
-import greetingApp.GreetingCardObject.AbstractGreetingCard;
 import greetingApp.greetingCardData.AbstractGreetingCardData;
+import greetingApp.greetingCardData.AbstractTemplateGreetingCardData;
 
 import java.util.List;
 

@@ -1,11 +1,12 @@
 package greetingApp.controllers;
 
-import greetingApp.GreetingCardObject.AbstractGreetingCard;
 import greetingApp.greetingCardData.AbstractGreetingCardData;
+import greetingApp.greetingCardData.AbstractTemplateGreetingCardData;
 import greetingApp.services.GreetingCardService;
 import greetingApp.services.GreetingCardTemplate;
 import greetingApp.services.convertors.ClientServerConvertor;
-import greetingApp.viewmodel.GreetingCardViewModel;
+import greetingApp.viewmodel.AbstractTemplateGreetingCardViewModel;
+import greetingApp.viewmodel.AbstractGreetingCardViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,10 +32,10 @@ public class GreetingCardsController {
 
     @CrossOrigin
     @RequestMapping(method= RequestMethod.POST, value ="/greetingCard/createCard")
-    public GreetingCardViewModel createCard(@RequestBody GreetingCardViewModel greetingCardViewModel) throws Exception{
+    public AbstractGreetingCardViewModel createCard(@RequestBody AbstractGreetingCardViewModel greetingCardViewModel) throws Exception{
         System.out.println(String.format("got post request with body: [%s]", greetingCardViewModel));
         AbstractGreetingCardData cardData = convertor.convertGreetingCardViewModel(greetingCardViewModel);
-        GreetingCardViewModel response = null;
+        AbstractGreetingCardViewModel response = null;
         if (greetingCardService.postCard(cardData)){
             response = convertor.convertGreetingCardData(cardData);
         }
@@ -44,13 +45,13 @@ public class GreetingCardsController {
 
     @CrossOrigin
     @RequestMapping("/greetingCard/getAllCards")
-    public List<GreetingCardViewModel> getAllGreetingCards() throws Exception{
+    public List<AbstractGreetingCardViewModel> getAllGreetingCards() throws Exception{
         System.out.println("get all cards");
-        List<GreetingCardViewModel> ret = new ArrayList<>();
+        List<AbstractGreetingCardViewModel> ret = new ArrayList<>();
         List<AbstractGreetingCardData> greetingCardDataList = greetingCardService.getSavedCards();
         for (AbstractGreetingCardData greetingCard : greetingCardDataList){
-            GreetingCardViewModel greetingCardViewModel = convertor.convertGreetingCardData(greetingCard);
-            ret.add(greetingCardViewModel);
+            AbstractGreetingCardViewModel abstractTemplateGreetingCardViewModel = convertor.convertGreetingCardData(greetingCard);
+            ret.add(abstractTemplateGreetingCardViewModel);
         }
         return ret;
     }

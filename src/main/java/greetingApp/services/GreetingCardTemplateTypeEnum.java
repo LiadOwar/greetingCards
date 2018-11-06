@@ -5,5 +5,5 @@ package greetingApp.services;
  */
 
 public enum GreetingCardTemplateTypeEnum {
-    BIRTH_DAY_TEMPLATE, GET_WELL_SOON_TEMPLATE;
+    BIRTH_DAY_TEMPLATE, GET_WELL_SOON_TEMPLATE, NA;
 }

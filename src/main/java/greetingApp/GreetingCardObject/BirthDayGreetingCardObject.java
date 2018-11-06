@@ -1,6 +1,5 @@
 package greetingApp.GreetingCardObject;
 
-import greetingApp.greetingCardData.AbstractGreetingCardData;
 import greetingApp.greetingCardData.BirthdayGreetingCardData;
 import greetingApp.services.GreetingCardTemplateTypeEnum;
 

@@ -16,6 +16,7 @@ public class GreetingCardsServiceConfig {
         List<GreetingCardTemplate> greetingcardTemplates = new ArrayList<>();
         greetingcardTemplates.add(new GreetingCardTemplate(GreetingCardTemplateTypeEnum.BIRTH_DAY_TEMPLATE));
         greetingcardTemplates.add(new GreetingCardTemplate(GreetingCardTemplateTypeEnum.GET_WELL_SOON_TEMPLATE));
+        greetingcardTemplates.add(new GreetingCardTemplate(GreetingCardTemplateTypeEnum.NA));
         return new GreetingCardServiceImpl(greetingcardTemplates);
     }
 }

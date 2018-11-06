@@ -1,10 +1,9 @@
 package greetingApp.services.convertors;
 
-import greetingApp.greetingCardData.AbstractGreetingCardData;
-import greetingApp.greetingCardData.BirthdayGreetingCardData;
-import greetingApp.greetingCardData.GetWellGreetingCardData;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import greetingApp.greetingCardData.*;
 import greetingApp.services.GreetingCardTemplateTypeEnum;
-import greetingApp.viewmodel.GreetingCardViewModel;
+import greetingApp.viewmodel.*;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -17,63 +16,84 @@ public class ClientServerConvertorImpl implements ClientServerConvertor {
 
 
     @Override
-    public AbstractGreetingCardData convertGreetingCardViewModel(GreetingCardViewModel view) {
+    public AbstractGreetingCardData convertGreetingCardViewModel(AbstractGreetingCardViewModel view) {
         AbstractGreetingCardData ret = null;
-        String viewUUid = view.getUUid();
-        String viewRecipientName = view.getRecipientName();
+        String viewUUid = view.getuUid();
         String viewTemplateType = view.getTemplateType();
-        String viewSenderName = view.getSenderName();
 
         if(viewUUid == null){
             viewUUid = generateUuid();
+            view.setuUid(viewUUid);
         }
-
         GreetingCardTemplateTypeEnum viewTemplateTypeEnum = GreetingCardTemplateTypeEnum.valueOf(viewTemplateType);
-        GreetingCardTemplateTypeEnum birthDAyCardTemplateName = GreetingCardTemplateTypeEnum.BIRTH_DAY_TEMPLATE;
-
-        String templateTypeForAbstactGreetingCard;
 
         switch (viewTemplateTypeEnum){
             case  BIRTH_DAY_TEMPLATE : {
-                Integer viewRecipientAge = view.getRecipientAge();
+                BirthDayCardViewModel birthDayCardViewModel = (BirthDayCardViewModel)view;
+                String viewRecipientName = birthDayCardViewModel.getRecipientName();
+                String viewSenderName = birthDayCardViewModel.getSenderName();
+                Integer viewRecipientAge = birthDayCardViewModel.getRecipientAge();
                 if (viewRecipientAge == null){
                     break;
                 }
+
                 ret = new BirthdayGreetingCardData(viewSenderName, viewRecipientName , viewRecipientAge);
                 break;
             }
             case GET_WELL_SOON_TEMPLATE:
+                GetWellCardViewModel getWellCardViewModel = (GetWellCardViewModel)view;
+                String viewRecipientName = getWellCardViewModel.getRecipientName();
+                String viewSenderName = getWellCardViewModel.getSenderName();
                 ret = new GetWellGreetingCardData(viewSenderName, viewRecipientName);
+                break;
+            case NA:
+                NoTemplateCardViewModel noTemplateCardViewModel = (NoTemplateCardViewModel)view;
+                String viewFreeText = ((NoTemplateCardViewModel) view).getFreeText();
+                ret = new NoTemplateCardData(viewFreeText);
                 break;
             default: break;
         }
-        ret.setUUid(viewUUid);
+        ret.setuUid(viewUUid);
         return ret;
 
     }
 
     @Override
-    public GreetingCardViewModel convertGreetingCardData(AbstractGreetingCardData cardData) {
-        GreetingCardViewModel ret = null;
-        String dataUuid = cardData.getUUid();
-        String dataRecipientName = cardData.getRecipientName();
-        String dataSenderName = cardData.getSenderName();
+    public AbstractGreetingCardViewModel convertGreetingCardData(AbstractGreetingCardData cardData) {
+        AbstractGreetingCardViewModel ret = null;
+        String dataUuid = cardData.getuUid();
+
         String dataTemplateType = cardData.getTemplateType();
+
+        if(dataUuid == null){
+            dataUuid = generateUuid();
+            cardData.setuUid(dataUuid);
+        }
 
         GreetingCardTemplateTypeEnum dataTemplateTypeEnum = GreetingCardTemplateTypeEnum.valueOf(dataTemplateType);
         switch (dataTemplateTypeEnum){
             case  BIRTH_DAY_TEMPLATE : {
                BirthdayGreetingCardData birthdayGreetingCardData = (BirthdayGreetingCardData)cardData;
-                ret = new GreetingCardViewModel(dataSenderName, dataRecipientName , dataTemplateType);
-                ret.setRecipientAge(birthdayGreetingCardData.getRecipientAge());
+                String dataRecipientName = birthdayGreetingCardData.getRecipientName();
+                String dataSenderName = birthdayGreetingCardData.getSenderName();
+                Integer dataRecipientAge = birthdayGreetingCardData.getRecipientAge();
+                ret = new BirthDayCardViewModel(dataSenderName, dataRecipientName , dataRecipientAge);
                 break;
             }
             case GET_WELL_SOON_TEMPLATE:
-                ret = new GreetingCardViewModel(dataSenderName, dataRecipientName, dataTemplateType);
+                GetWellGreetingCardData getWellGreetingCardData = (GetWellGreetingCardData)cardData;
+                String dataRecipientName = getWellGreetingCardData.getRecipientName();
+                String dataSenderName = getWellGreetingCardData.getSenderName();
+                ret = new GetWellCardViewModel(dataSenderName, dataRecipientName);
+                break;
+            case NA:
+                NoTemplateCardData noTemplateCardData = (NoTemplateCardData)cardData;
+                String freeText = ((NoTemplateCardData) cardData).getFreeText();
+                ret = new NoTemplateCardViewModel(freeText);
                 break;
             default: break;
         }
-        ret.setUUid(dataUuid);
+        ret.setuUid(dataUuid);
         return ret;
     }
 

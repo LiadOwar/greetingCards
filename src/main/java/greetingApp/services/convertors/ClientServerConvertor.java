@@ -1,13 +1,15 @@
 package greetingApp.services.convertors;
 
 import greetingApp.greetingCardData.AbstractGreetingCardData;
-import greetingApp.viewmodel.GreetingCardViewModel;
+import greetingApp.greetingCardData.AbstractTemplateGreetingCardData;
+import greetingApp.viewmodel.AbstractTemplateGreetingCardViewModel;
+import greetingApp.viewmodel.AbstractGreetingCardViewModel;
 
 /**
  * Created by liadm on 28/10/2018.
  */
 public interface ClientServerConvertor {
-    AbstractGreetingCardData convertGreetingCardViewModel(GreetingCardViewModel view);
+    AbstractGreetingCardData convertGreetingCardViewModel(AbstractGreetingCardViewModel view);
 
-    GreetingCardViewModel convertGreetingCardData(AbstractGreetingCardData cardData);
+    AbstractGreetingCardViewModel convertGreetingCardData(AbstractGreetingCardData cardData);
 }

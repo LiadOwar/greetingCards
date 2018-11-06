@@ -1,7 +1,7 @@
 package greetingApp.services;
 
-import greetingApp.GreetingCardObject.AbstractGreetingCard;
 import greetingApp.greetingCardData.AbstractGreetingCardData;
+import greetingApp.greetingCardData.AbstractTemplateGreetingCardData;
 import greetingApp.services.DataStorageConnection.DataStorageConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 

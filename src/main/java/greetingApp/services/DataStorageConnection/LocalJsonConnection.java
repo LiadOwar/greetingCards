@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SequenceWriter;
 import greetingApp.greetingCardData.AbstractGreetingCardData;
+import greetingApp.greetingCardData.AbstractTemplateGreetingCardData;
 import org.springframework.stereotype.Component;
 
 import java.io.*;

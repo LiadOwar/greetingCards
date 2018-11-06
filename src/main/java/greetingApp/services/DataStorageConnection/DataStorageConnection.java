@@ -1,6 +1,7 @@
 package greetingApp.services.DataStorageConnection;
 
 import greetingApp.greetingCardData.AbstractGreetingCardData;
+import greetingApp.greetingCardData.AbstractTemplateGreetingCardData;
 
 import java.util.List;
 

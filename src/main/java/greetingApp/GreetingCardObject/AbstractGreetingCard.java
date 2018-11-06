@@ -1,24 +1,24 @@
 package greetingApp.GreetingCardObject;
 
-import greetingApp.greetingCardData.AbstractGreetingCardData;
+import greetingApp.greetingCardData.AbstractTemplateGreetingCardData;
 
 /**
  * Created by liadm on 28/10/2018.
  */
 public abstract class AbstractGreetingCard {
-    protected AbstractGreetingCardData abstractGreetingCardData;
+    protected AbstractTemplateGreetingCardData abstractTemplateGreetingCardData;
     protected String templateType;
 
-    public AbstractGreetingCard(AbstractGreetingCardData abstractGreetingCardData) {
-        this.abstractGreetingCardData = abstractGreetingCardData;
+    public AbstractGreetingCard(AbstractTemplateGreetingCardData abstractTemplateGreetingCardData) {
+        this.abstractTemplateGreetingCardData = abstractTemplateGreetingCardData;
     }
 
-    public AbstractGreetingCardData getAbstractGreetingCardData() {
-        return abstractGreetingCardData;
+    public AbstractTemplateGreetingCardData getAbstractTemplateGreetingCardData() {
+        return abstractTemplateGreetingCardData;
     }
 
-    public void setAbstractGreetingCardData(AbstractGreetingCardData abstractGreetingCardData) {
-        this.abstractGreetingCardData = abstractGreetingCardData;
+    public void setAbstractTemplateGreetingCardData(AbstractTemplateGreetingCardData abstractTemplateGreetingCardData) {
+        this.abstractTemplateGreetingCardData = abstractTemplateGreetingCardData;
     }
 
     public String getTemplateType() {
