@@ -1,1 +1,1 @@
-GreetingCards
+GreetingCards - Copyright © 2016 LiadOwar
